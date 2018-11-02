@@ -1,0 +1,33 @@
+---
+version: "3.3"
+services:
+  client:
+    image: stephenwolfe/kafka-tools:${TAG-latest}
+    hostname: client
+    container_name: client
+    #depends_on:
+    #  - zookeeper
+    environment:
+      ZOOKEEPER: 'zookeeper:2181'
+      BOOTSTRAP: 'broker1:9092'
+    tmpfs:
+      - /var/run
+      - /tmp
+      - /root
+    volumes:
+      - .:/tmpdir
+    command:
+      - sh
+      - -c
+      - "exec tail -f /dev/null"
+  #zookeeper:
+  #  image: confluentinc/cp-zookeeper:4.1.1
+  #  hostname: zookeeper
+  #  container_name: zookeeper
+  #  ports:
+  #    - "2181:2181"
+  #  environment:
+  #    ZOOKEEPER_CLIENT_PORT: 2181
+  #    ZOOKEEPER_TICK_TIME: 2000
+
+#  TAG=lastest && docker-compose up --force-recreate -d && docker-compose exec client bash
